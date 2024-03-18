@@ -41,9 +41,27 @@ const Login = () => {
             };
 
             const { data } = await axios.post("/api/user/login", { email, password }, config);
+            toast({
+                title: "Login successful",
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom",
+            });
+            localStorage.setItem("userInfo", JSON.stringify(data));
+            setLoading(false);
+            history.push("/chats");
         }
-        catch(error){
-
+        catch (error) {
+            toast({
+                title: "Error occured",
+                description: error.response.data.message,
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom",
+            });
+            setLoading(false);
         }
     };
 
@@ -79,6 +97,7 @@ const Login = () => {
                 width="100%"
                 style={{ marginTop: 15 }}
                 onClick={submitHandler}
+isLoading={loading}
             >Login</Button>
             <Button
                 colorScheme='red'
